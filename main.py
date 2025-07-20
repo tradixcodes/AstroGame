@@ -1,5 +1,6 @@
 import pygame
 from constants import *
+from player import Player
 
 def main():
     print("Starting Asteroids!")
@@ -13,12 +14,15 @@ def main():
     # Inititialize font required to render text
     pygame.font.init()
     font = pygame.font.SysFont(None, 30) # Can change the size of the text
+    
+    # Player object instantiation
+    Tradix = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-    i = 0
-    while i < 5:
+    running = True
+    while running == True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                return running == False
 
         # Fill the screen
         screen.fill((0, 0, 0))
@@ -26,13 +30,19 @@ def main():
         # Tick the clock and get the fps
         clock.tick(60)
         fps = clock.get_fps()
-        
-        # dt = clock.tick() / 1000
-        # print(f"delta time: {dt}")
+
+        dt = clock.tick(60) / 1000
+        #print(f"delta time: {dt}")
 
         # Render FPS text
         fps_text = font.render(f"FPS: {fps:.2f}", True, (255, 0, 0))
         screen.blit(fps_text, (10, 10))
+        
+        # allows me to rotate the player
+        Tradix.update(dt)
+
+        # Re-render player on the screen
+        Tradix.draw(screen)
 
         # Update display
         pygame.display.flip()

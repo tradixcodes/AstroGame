@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+# My own files
+uv.lock
+activate.sh
+git_add.sh
