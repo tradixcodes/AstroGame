@@ -31,7 +31,7 @@ def main():
     Astroworld = AsteroidField()
 
     running = True
-    while running == True:
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return running == False
@@ -40,11 +40,11 @@ def main():
         screen.fill((0, 0, 0))
         
         # Tick the clock and get the fps
-        clock.tick(60)
+        clock_tick = clock.tick(60)
         fps = clock.get_fps()
 
-        dt = clock.tick(60) / 1000 #delta time(dt) is the time between two frames; here in milliseconds for a clock tick of 60 frames per second
-        print(f"delta time: {dt}")
+        dt = clock_tick / 1000 #delta time(dt) is the time between two frames; here in milliseconds for a clock tick of 60 frames per second
+        # print(f"delta time: {dt}")
         
         # Render FPS text
         fps_text = font.render(f"FPS: {fps:.2f}", True, (255, 0, 0))
@@ -53,13 +53,18 @@ def main():
         # allows me to rotate the player
         update_group.update(dt)
 
-        # Re-render player on the screen
-        for player in draw_group:
-            player.draw(screen)
+        # Re-render objects on the screen
+        for objects in draw_group:
+            objects.draw(screen)
+        
+        for asteroid in asteroid_group:
+            if Tradix.check_collisions(asteroid):
+                print(f"Game Over!")
+                running = False
 
         # Update display
         pygame.display.flip()
-        print(f"FPS: {fps:.2f}")
+        # print(f"FPS: {fps:.2f}")
 
 if __name__ == "__main__":
     main()
