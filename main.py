@@ -27,7 +27,7 @@ def main():
     Player.containers = (update_group, draw_group)
     Asteroid.containers = (asteroid_group, update_group, draw_group)
     AsteroidField.containers = (update_group,)
-    Shot.containers = (update_group, draw_group)
+    Shot.containers = (shot_group, update_group, draw_group)
 
     # Player object instantiation
     Tradix = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -64,6 +64,11 @@ def main():
             if Tradix.check_collisions(asteroid):
                 print(f"Game Over!")
                 running = False
+
+            for shot in shot_group:
+                if shot.check_collisions(asteroid):
+                   shot.kill()
+                   asteroid.kill()
 
         # Update display
         pygame.display.flip()
